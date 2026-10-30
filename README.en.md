@@ -19,12 +19,6 @@ Adapters for Logitech, MCHOSE and ROG ship today. They are the devices the autho
 
 *Four devices. Past three, the row scrolls horizontally with the mouse wheel.*
 
-## Why
-
-Wireless keyboards and mice rarely expose battery level to Windows. Each vendor ships its own utility — G HUB, M HUB, Armoury Crate — and they are heavy, resident processes that must be installed just to read a number.
-
-Voltide queries the devices directly over HID, reads the same values those utilities report, and displays them in one place.
-
 ## Features
 
 - **One panel for every device.** Cards are laid out and centred automatically; new devices appear as they connect. Past three devices the row scrolls with the mouse wheel.
