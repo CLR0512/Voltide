@@ -9,7 +9,7 @@
 
 A lightweight Windows tray utility that reports the battery level of 2.4 GHz wireless peripherals — keyboards and mice — in a single panel, without installing any vendor software.
 
-Adapters for Logitech, MCHOSE and ROG ship today. They are the devices the author has access to, not the scope of the tool: the provider layer is designed so that supporting a new brand is one self-contained class.
+Adapters for Logitech, MCHOSE and ROG ship today. They are the devices the author has access to, not the scope of the tool: the provider layer is designed so that supporting a new brand is one self-contained class.If your device is not supported yet, open an issue. The author also welcomes hardware on loan for testing, and will add support for the model accordingly.
 
 ![Voltide panel](docs/panel.png)
 
@@ -23,7 +23,7 @@ Adapters for Logitech, MCHOSE and ROG ship today. They are the devices the autho
 
 - **One panel for every device.** Cards are laid out and centred automatically; new devices appear as they connect. Past three devices the row scrolls with the mouse wheel.
 - **Liquid level indicator.** The bolt fills according to charge, with a slow wave while the panel is open.
-- **Three-tier colour.** Green at 50% and above, amber from 20% to 49%, red below 20%. Both the percentage and the fill follow the tier.
+- **Three-tier colour.** Green at 50% and above, yellow from 20% to 49%, red below 20%. Both the percentage and the fill follow the tier.
 - **Accurate sleep state.** A device that has reported before keeps its last level, dimmed, while asleep — so a sleeping mouse still tells you something.
 - **Adjustable polling.** 15 s, 30 s or 90 s while the panel is open. The preference is stored and restored.
 - **Tray integration.** The tray icon opens the panel; the context menu lists every device with its current level.
@@ -122,9 +122,10 @@ One trap worth recording: Logitech's `0x1004` **function 0** returns voltage, no
 - A device that has never reported and is asleep cannot be woken by a query; it will show `--` until it is used.
 - The ROG receiver also serves other peripherals. If it is paired with a mouse rather than a keyboard, Voltide will still label it as a keyboard.
 - Wireless devices that share a receiver report through that receiver, not individually.
+- A device from a supported brand but a different model is identified as the model already supported: providers match on vendor and interface characteristics, not on the model itself.
 
 ## Licence
 
 MIT. See [LICENSE](LICENSE).
 
-Designed and developed by [Joko](#).
+Designed and developed by [Joko](https://github.com/sdparklab).
