@@ -40,17 +40,16 @@ namespace Voltide.Providers
 
         public string Name { get { return "Logitech HID++"; } }
 
-        public List<DeviceInfo> Discover()
+        public List<DeviceInfo> Discover(List<HidDeviceInfo> catalog)
         {
             // No passive listener any more: 0x1004 function 1 answers with the real
             // percentage, so there is nothing left to eavesdrop on. Keeping the
             // listener would hold a second HID handle open for no reason.
 
             List<DeviceInfo> found = new List<DeviceInfo>();
-            List<HidDeviceInfo> all = HidNative.Enumerate();
-
+            
             Dictionary<string, HidDeviceInfo> candidates = new Dictionary<string, HidDeviceInfo>();
-            foreach (HidDeviceInfo h in all)
+            foreach (HidDeviceInfo h in catalog)
             {
                 if (h.VendorId != LogitechVid) continue;
                 if (h.UsagePage != 0xFF00) continue;
@@ -253,7 +252,7 @@ namespace Voltide.Providers
                     continue;
                 }
 
-                byte[] resp = WaitFor(s, dev, 0x00, req[3], attempt == 0 ? 450 : 800);
+                byte[] resp = WaitFor(s, dev, 0x00, req[3], attempt == 0 ? 350 : 500);
                 if (resp != null)
                 {
                     // The device DID answer. Feature index 0 means "no such feature",

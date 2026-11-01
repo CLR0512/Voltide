@@ -1,6 +1,6 @@
 # Voltide
 
-**简体中文** | [English](README.en.md)
+
 
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-000000?logo=windows&logoColor=white)
 ![.NET](https://img.shields.io/badge/.NET%20Framework-4.8-512BD4)
@@ -9,7 +9,7 @@
 
 一款轻量的 Windows 托盘工具，在一块面板中显示 2.4G 无线外设（键盘与鼠标）的电量，无需安装任何厂商软件。
 
-目前已内置罗技、迈丛、ROG 三家适配器。这是作者手头拥有的设备，而非工具的能力边界：适配层被设计成「支持一个新品牌 = 新增一个独立的类」。若你使用的设备尚未被支持，可以通过 Issue 提出。作者也欢迎借用设备进行实测，并据此补充对应型号的适配。
+目前已内置罗技、迈丛、ROG 三家适配器。这是作者手头拥有的设备，而非工具的能力边界：适配层被设计成「支持一个新品牌 = 新增一个独立的类」。
 
 ![Voltide 面板](docs/panel.png)
 
@@ -18,6 +18,8 @@
 ![Voltide 四台设备](docs/panel-4-devices.png)
 
 *四台设备——超过三台时，卡片行可用鼠标滚轮横向翻阅。*
+
+若你使用的设备尚未被支持，可以通过 Issue 提出。作者也欢迎借用设备进行实测，并据此补充对应型号的适配。
 
 ## 功能
 
@@ -28,7 +30,7 @@
 - **可调刷新间隔。** 面板打开时可选 15 秒、30 秒或 90 秒，设置会被保存并在下次启动时恢复。
 - **托盘集成。** 左键打开面板，右键菜单列出每台设备及其当前电量。
 - **开机自启。** 可选，在托盘菜单中切换。
-- **单文件发布。** 8.8 MB，无安装程序，除 Windows 自带的 .NET Framework 外无其他依赖。
+- **单文件发布。** 8.3 MB，无安装程序，除 Windows 自带的 .NET Framework 外无其他依赖。
 
 ## 当前已支持
 
@@ -36,9 +38,16 @@
 
 | 品牌 | 型号 | 协议 |
 |---|---|---|
-| 罗技 | G304、G Pro X Superlight 2（GPW3）、M750M | HID++ 2.0，经由 LIGHTSPEED / Logi Bolt |
-| 迈丛 MCHOSE | K99 v2 | 厂商自定义 HID，20 字节帧 |
+| 罗技 | G304、G Pro X Superlight 2（GPW3）、M750M、G102 等 | HID++ 2.0，经由 LIGHTSPEED / Logi Bolt / Unifying |
+| 迈丛 MCHOSE | K99 v2、G75 Pro | 厂商自定义 HID，20 字节帧 |
 | ROG | AZOTH EXTREME（夜魔 Extreme） | ROG OMNI RECEIVER，64 字节帧 |
+| 雷蛇 Razer | 毒蝰终极版、毒蝰 V3 Pro、炼狱蝰蛇 V3/V4 Pro、巴塞利斯蛇 V3 Pro 等无线鼠标 | 91 字节 Feature Report |
+| 雷蛇 Razer | 旋风黑鲨 V2 专业版 | 64 字节音频通道，0xFF00 |
+| ATK | A9 Air 大师+（鼠标） | 17 字节，`HidD_SetOutputReport`，和校验 0x4D |
+| ATK | N9 V2 Ultimate（耳机） | 64 字节，`WriteFile`，report id 0x55 |
+
+> 雷蛇与狼蛛协议的逆向由 B 站网友 木兮丶念旧 完成并分享，特此致谢。
+> ATK 系列的适配由 GitHub 网友 [yiwluoq](https://github.com/yiwluoq) 贡献（PR #3），在真实硬件上逆向并验证，特此致谢。
 
 ### 如何添加新设备
 
@@ -48,7 +57,7 @@
 public interface IDeviceProvider
 {
     string Name { get; }
-    List<DeviceInfo> Discover();           // 枚举 HID 集合，匹配你的设备
+    List<DeviceInfo> Discover(List<HidDeviceInfo> catalog);   // catalog 由 DeviceManager 统一枚举
     DeviceReading Read(DeviceInfo device); // 发送查询，解析回复
 }
 ```
@@ -59,7 +68,7 @@ public interface IDeviceProvider
 2. 在 `src/Core/DeviceManager.cs` 中与现有适配器一并注册。
 3. 重新编译。
 
-`Discover()` 会收到系统暴露的全部 HID 集合；`src/Interop/HidNative.cs` 提供枚举能力，`HidSession` 负责读写。现有三个适配器是复杂度递进的可参考样例，具体帧格式见[协议说明](#协议说明)。
+`Discover()` 会收到系统暴露的全部 HID 集合；`src/Interop/HidNative.cs` 提供枚举能力，`HidSession` 负责读写。现有五个适配器是复杂度递进的可参考样例，具体帧格式见[协议说明](#协议说明)。
 
 若厂商协议未公开，可以通过抓包还原：运行官方工具，用 [USBPcap](https://desowin.org/usbpcap/) 记录 USB 流量，定位返回百分比的那一次请求。三个现有适配器都是这样写成的。
 
@@ -124,6 +133,7 @@ powershell -ExecutionPolicy Bypass -File pack.ps1 -Target dist
 - 共享同一接收器的无线设备通过接收器上报，而非各自独立上报。
 - 同品牌但不同型号的设备会被识别为现有型号。适配层目前按厂商与接口特征匹配，尚未区分具体型号。
 - 迈丛与狼蛛共用 USB 标识（`3554:FA09`）。目前仅适配迈丛的查询协议，狼蛛键盘可能被识别为迈丛型号，读数也可能不正确。两者需要通过监听设备主动上报来区分，尚未实现。
+- Xbox Series X|S 手柄在接收器和 USB 有线模式下都读不到电量：Windows 只为它暴露 Game Pad 输入报告（Output / Feature 均为 0），`xboxgip` 也不会为 Series 手柄注册设备接口。可行的办法是改用**蓝牙连接**——蓝牙 HID 会带标准 Battery Service（`0x180F`），届时可以读取；代价是蓝牙模式轮询率会降到约 125 Hz。
 
 ## 许可
 

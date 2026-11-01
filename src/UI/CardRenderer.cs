@@ -597,6 +597,64 @@ namespace Voltide.UI
             }
         }
 
+        /// <summary>
+        /// The bolt's left edge meets this baseline at x≈143, and the text starts at
+        /// 23.86, so 118 design units is all the room a model name has before it runs
+        /// under the lightning bolt.
+        /// </summary>
+        private const float ModelMaxWidth = 118f;
+
+        /// <summary>
+        /// Model names are kept short in the providers; this is the safety net for a
+        /// long localised name or a newly mapped PID. Latin runs use Montserrat, CJK
+        /// falls back to Alibaba PuHui Ti, and anything wider than the slot shrinks
+        /// (never below 9 px) instead of running into the bolt.
+        /// </summary>
+        private static void DrawModel(Graphics g, string text, float x, float baselineY,
+                                      float sx, Color color)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+
+            bool cjk = HasCjk(text);
+            FontKind kind = cjk ? FontKind.Chinese : FontKind.MontserratMedium;
+
+            float px = 13f * sx;
+            float max = ModelMaxWidth * sx;
+
+            Font font = FontManager.Get(kind, px);
+            float width = Measure(g, text, font, cjk);
+
+            if (width > max && width > 0f)
+            {
+                px = Math.Max(9f * sx, px * (max / width));
+                font = FontManager.Get(kind, px);
+            }
+
+            DrawBaseline(g, text, font, x, baselineY, color, cjk);
+        }
+
+        private static float Measure(Graphics g, string text, Font font, bool cjk)
+        {
+            using (StringFormat sf = cjk
+                       ? new StringFormat()
+                       : new StringFormat(StringFormat.GenericTypographic))
+            {
+                return g.MeasureString(text, font, int.MaxValue, sf).Width;
+            }
+        }
+
+        internal static bool HasCjk(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] >= 0x2E80 && s[i] <= 0x9FFF) return true;
+            }
+
+            return false;
+        }
+
         private static void DrawText(Graphics g, RectangleF card, CardText t)
         {
             float sx = card.Width / DesignW;
@@ -609,8 +667,7 @@ namespace Voltide.UI
                 ox + 23.86f * sx, oy + 34.14f * sy, TextBrand);
 
             // ---- model (baseline 46.67, size 13, #b29e8c, Medium 500) ----
-            DrawBaseline(g, t.Model, FontKind.MontserratMedium, 13f * sx,
-                ox + 23.86f * sx, oy + 46.67f * sy, TextModel);
+            DrawModel(g, t.Model, ox + 23.86f * sx, oy + 46.67f * sy, sx, TextModel);
 
             // ---- percentage (baseline 94.01, size 42.52, #74dd7c, SemiBold 600) ----
             // "--" means there is no reading at all, so it is drawn muted: a bright

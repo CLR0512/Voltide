@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Voltide.Interop;
 using Voltide.Providers;
 
 namespace Voltide.Core
@@ -27,6 +28,10 @@ namespace Voltide.Core
             _providers.Add(new LogitechProvider());
             _providers.Add(new MchoseProvider());
             _providers.Add(new AsusRogProvider());
+            _providers.Add(new AtkMouseProvider());
+            _providers.Add(new AtkHeadsetProvider());
+            _providers.Add(new RazerProvider());
+            _providers.Add(new HeadsetProvider());
         }
 
         public List<DeviceSnapshot> Snapshot()
@@ -50,12 +55,26 @@ namespace Voltide.Core
         {
             List<DeviceSnapshot> next = new List<DeviceSnapshot>();
 
+            // Enumerate once per refresh and share the result. Every provider used to
+            // walk the whole HID tree itself, which cost ~400 ms per provider on a
+            // machine with a busy USB stack — five providers meant two seconds of
+            // identical work.
+            List<HidDeviceInfo> catalog;
+            try
+            {
+                catalog = HidNative.Enumerate();
+            }
+            catch
+            {
+                catalog = new List<HidDeviceInfo>();
+            }
+
             foreach (IDeviceProvider p in _providers)
             {
                 List<DeviceInfo> devices;
                 try
                 {
-                    devices = p.Discover();
+                    devices = p.Discover(catalog);
                 }
                 catch
                 {

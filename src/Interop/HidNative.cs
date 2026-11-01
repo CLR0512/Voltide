@@ -102,6 +102,9 @@ namespace Voltide.Interop
         [DllImport("hid.dll", SetLastError = true)]
         public static extern bool HidD_GetFeature(IntPtr h, byte[] buf, int len);
 
+        [DllImport("hid.dll")]
+        public static extern bool HidD_SetFeature(IntPtr h, byte[] buf, int len);
+
         [DllImport("setupapi.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern IntPtr SetupDiGetClassDevs(ref Guid guid, IntPtr enumerator, IntPtr hwndParent, int flags);
 

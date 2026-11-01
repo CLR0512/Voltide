@@ -32,13 +32,12 @@ namespace Voltide.Providers
 
         public string Name { get { return "MCHOSE HID"; } }
 
-        public List<DeviceInfo> Discover()
+        public List<DeviceInfo> Discover(List<HidDeviceInfo> catalog)
         {
             List<DeviceInfo> found = new List<DeviceInfo>();
-            List<HidDeviceInfo> all = HidNative.Enumerate();
-
+            
             Dictionary<string, HidDeviceInfo> candidates = new Dictionary<string, HidDeviceInfo>();
-            foreach (HidDeviceInfo h in all)
+            foreach (HidDeviceInfo h in catalog)
             {
                 if (h.VendorId != MchoseVid) continue;
                 if (h.UsagePage != 0xFF02) continue;      // vendor collection
@@ -100,7 +99,7 @@ namespace Voltide.Providers
                             return r;
                         }
 
-                        resp = WaitFor(s, ReportId, CmdBattery, 700);
+                        resp = WaitFor(s, ReportId, CmdBattery, 450);
                     }
 
                     if (resp == null)
