@@ -45,6 +45,7 @@
 | 雷蛇 Razer | 旋风黑鲨 V2 专业版 | 64 字节音频通道，0xFF00 |
 | ATK | A9 Air 大师+（鼠标） | 17 字节，`HidD_SetOutputReport`，和校验 0x4D |
 | ATK | N9 V2 Ultimate（耳机） | 64 字节，`WriteFile`，report id 0x55 |
+| IMECOO | P1（2.4G 无线鼠标） | 17 字节，`WriteFile`，report id 0x08，和校验 0x4D |
 
 > 雷蛇与狼蛛协议的逆向由 B 站网友 木兮丶念旧 完成并分享，特此致谢。
 > ATK 系列的适配由 GitHub 网友 [yiwluoq](https://github.com/yiwluoq) 贡献（PR #3），在真实硬件上逆向并验证，特此致谢。
