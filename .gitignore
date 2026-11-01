@@ -1,0 +1,22 @@
+# Build output
+*.exe
+*.pdb
+obj/
+dist/
+
+# Fonts are embedded into the executable at build time and are not redistributed
+# with the source. Keep the folder out of the repository.
+Fonts/
+
+# Runtime artefacts
+Voltide-error.txt
+*.pcap
+*.log
+
+# Editor / OS
+.vs/
+.idea/
+*.user
+Thumbs.db
+desktop.ini
+.DS_Store
