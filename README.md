@@ -43,10 +43,9 @@
 | ROG | AZOTH EXTREME（夜魔 Extreme） | ROG OMNI RECEIVER，64 字节帧 |
 | 雷蛇 Razer | 毒蝰终极版、毒蝰 V3 Pro、炼狱蝰蛇 V3/V4 Pro、巴塞利斯蛇 V3 Pro 等无线鼠标 | 91 字节 Feature Report |
 | 雷蛇 Razer | 旋风黑鲨 V2 专业版 | 64 字节音频通道，0xFF00 |
-| Xbox | 兼容 Xbox 的手柄（XInput），已验证 8BitDo Ultimate 3E | XInputGetBatteryInformation，四档 |
 | ATK | A9 Air 大师+（鼠标） | 17 字节，`HidD_SetOutputReport`，和校验 0x4D |
 | ATK | N9 V2 Ultimate（耳机） | 64 字节，`WriteFile`，report id 0x55 |
-| IMECOO | P1（2.4G 无线鼠标） | 17 字节，`WriteFile`，report id 0x08，和校验 0x4D |
+| Xbox | Series X\|S、8BitDo 等 XInput 手柄 | XInput 四档电量 |
 
 > 雷蛇与狼蛛协议的逆向由 B 站网友 木兮丶念旧 完成并分享，特此致谢。
 > ATK 系列的适配由 GitHub 网友 [yiwluoq](https://github.com/yiwluoq) 贡献（PR #3），在真实硬件上逆向并验证，特此致谢。
@@ -135,7 +134,7 @@ powershell -ExecutionPolicy Bypass -File pack.ps1 -Target dist
 - 共享同一接收器的无线设备通过接收器上报，而非各自独立上报。
 - 同品牌但不同型号的设备会被识别为现有型号。适配层目前按厂商与接口特征匹配，尚未区分具体型号。
 - 迈丛与狼蛛共用 USB 标识（`3554:FA09`）。目前仅适配迈丛的查询协议，狼蛛键盘可能被识别为迈丛型号，读数也可能不正确。两者需要通过监听设备主动上报来区分，尚未实现。
-- Xbox Series X|S 手柄在接收器和 USB 有线模式下都读不到电量：Windows 只为它暴露 Game Pad 输入报告（Output / Feature 均为 0），`xboxgip` 也不会为 Series 手柄注册设备接口。可行的办法是改用**蓝牙连接**——蓝牙 HID 会带标准 Battery Service（`0x180F`），届时可以读取；代价是蓝牙模式轮询率会降到约 125 Hz。
+- XInput 手柄只能读到**四档**电量（满 100% / 中 50% / 低 20% / 空 5%），不是精确百分比。卡片详情会标注 `XInput 四档`，避免误读为实测值。
 
 ## 许可
 

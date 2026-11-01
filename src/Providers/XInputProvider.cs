@@ -48,9 +48,9 @@ namespace Voltide.Providers
 
                 DeviceInfo d = new DeviceInfo();
                 d.Id = "xinput-" + slot;
-                d.Brand = "Xbox";
-                d.Model = "手柄";
-                d.ShortModel = "手柄 " + (slot + 1);
+                d.Brand = "XBOX";
+                d.Model = "CONTROLLER";
+                d.ShortModel = "XBOX " + (slot + 1);
                 d.Name = "Xbox 手柄";
                 d.Kind = DeviceKind.Other;
 
@@ -102,7 +102,7 @@ namespace Voltide.Providers
                 r.Percent = 100;
                 r.Level = BatteryLevel.Full;
                 r.Charging = true;
-                r.Detail = "有线供电";
+                r.Detail = "XInput 有线";
                 r.Raw = "type=1 level=" + info.BatteryLevel;
                 return r;
             }
@@ -117,7 +117,7 @@ namespace Voltide.Providers
 
             r.Percent = percent;
             r.Level = BatteryMath.FromPercent(percent.Value);
-            r.Detail = "2.4G 四档估算";
+            r.Detail = "XInput 四档";
             r.Raw = "type=" + info.BatteryType + " level=" + info.BatteryLevel;
             return r;
         }
