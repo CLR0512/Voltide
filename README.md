@@ -43,6 +43,7 @@
 | ROG | AZOTH EXTREME（夜魔 Extreme） | ROG OMNI RECEIVER，64 字节帧 |
 | 雷蛇 Razer | 毒蝰终极版、毒蝰 V3 Pro、炼狱蝰蛇 V3/V4 Pro、巴塞利斯蛇 V3 Pro 等无线鼠标 | 91 字节 Feature Report |
 | 雷蛇 Razer | 旋风黑鲨 V2 专业版 | 64 字节音频通道，0xFF00 |
+| Xbox | 兼容 Xbox 的手柄（XInput），已验证 8BitDo Ultimate 3E | XInputGetBatteryInformation，四档 |
 | ATK | A9 Air 大师+（鼠标） | 17 字节，`HidD_SetOutputReport`，和校验 0x4D |
 | ATK | N9 V2 Ultimate（耳机） | 64 字节，`WriteFile`，report id 0x55 |
 
