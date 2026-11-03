@@ -42,6 +42,7 @@ namespace Voltide.Core
         public int? Percent;          // null = unknown
         public BatteryLevel Level;
         public bool Charging;
+        public bool ChargingKnown = true;   // false when the reply could not confirm it
         public bool Online;
         /// <summary>
         /// The dongle is present but the device did not answer (it sleeps between

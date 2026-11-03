@@ -36,20 +36,28 @@
 
 以下设备均已在真实硬件上验证。它们代表作者手头拥有的设备，而非架构所能覆盖的上限。
 
-| 品牌 | 型号 | 协议 |
-|---|---|---|
-| 罗技 | G304、G Pro X Superlight 2（GPW3）、M750M、G102 等 | HID++ 2.0，经由 LIGHTSPEED / Logi Bolt / Unifying |
-| 迈丛 MCHOSE | K99 v2、G75 Pro | 厂商自定义 HID，20 字节帧 |
-| ROG | AZOTH EXTREME（夜魔 Extreme） | ROG OMNI RECEIVER，64 字节帧 |
-| 雷蛇 Razer | 毒蝰终极版、毒蝰 V3 Pro、炼狱蝰蛇 V3/V4 Pro、巴塞利斯蛇 V3 Pro 等无线鼠标 | 91 字节 Feature Report |
-| 雷蛇 Razer | 旋风黑鲨 V2 专业版 | 64 字节音频通道，0xFF00 |
-| ATK | A9 Air 大师+（鼠标） | 17 字节，`HidD_SetOutputReport`，和校验 0x4D |
-| ATK | N9 V2 Ultimate（耳机） | 64 字节，`WriteFile`，report id 0x55 |
-| Xbox | Series X\|S、8BitDo 等 XInput 手柄 | XInput 四档电量 |
+| 品牌 | 设备 | 匹配 | 协议 | 提供者 |
+|---|---|---|---|---|
+| 罗技 | G304 / GPW3 / M750M / G102 / Unifying | VID `046D` | HID++ 2.0 | 作者 |
+| 迈丛 MCHOSE | K99 v2、G75 Pro | `3554:FA09` | 20 字节帧 | 作者 |
+| 迈丛 MCHOSE | K7 V2 Ultra+ | `3837:1014` | 64 字节 | [@whitzard0421](https://github.com/whitzard0421) |
+| 迈丛 MCHOSE | A5 V3 | VID `3837` | 65 字节 Feature | [@koobzx](https://github.com/koobzx) |
+| ROG | AZOTH EXTREME（夜魔 Extreme） | `0B05:1ACE` | 64 字节帧 | 作者 |
+| ROG | Delta II、Pelta | VID `0B05` | 64 字节，0xFF00 | [@Cantrarella](https://github.com/Cantrarella) |
+| 泰度 TAIDU | TSG809 | VID `A8A5` | 厂商自定义 | [@ptaritsu](https://github.com/ptaritsu) |
+| IMECOO | P1 | `3554:FB34` | 17 字节 | [@Mor16rty](https://github.com/Mor16rty) |
+| ATK | A9 Air 大师+（鼠标） | `373B:1278` | 17 字节，和校验 0x4D | [@yiwluoq](https://github.com/yiwluoq) |
+| ATK | N9 V2 Ultimate（耳机） | `373B:1262` | 64 字节，report 0x55 | [@yiwluoq](https://github.com/yiwluoq) |
+| Xbox | Series X\|S、8BitDo 等 XInput 手柄 | 槽位 0–3 | 四档电量 | [@Mor16rty](https://github.com/Mor16rty) |
+| 雷蛇 Razer | 毒蝰、炼狱蝰蛇、巴塞利斯蛇等 24 款无线鼠标 | VID `1532` | 91 字节 Feature | B 站 木兮丶念旧 |
+| 雷蛇 Razer | 旋风黑鲨 V2 专业版 | `1532:0555` | 64 字节音频通道 | B 站 木兮丶念旧 |
 
-> 雷蛇与狼蛛协议的逆向由 B 站网友 木兮丶念旧 完成并分享，特此致谢。
-> ATK 系列的适配由 GitHub 网友 [yiwluoq](https://github.com/yiwluoq) 贡献（PR #3），在真实硬件上逆向并验证，特此致谢。
-
+> 感谢 [@yiwluoq](https://github.com/yiwluoq)（ATK）、[@Mor16rty](https://github.com/Mor16rty)（IMECOO、Xbox）、
+> [@whitzard0421](https://github.com/whitzard0421)（K7 V2 Ultra+）、[@koobzx](https://github.com/koobzx)（A5 V3）、
+> [@ptaritsu](https://github.com/ptaritsu)（TAIDU）、[@Cantrarella](https://github.com/Cantrarella)（ROG Delta II / Pelta）
+> 在真实硬件上逆向并验证各自的设备，特此致谢。
+>
+> 雷蛇与狼蛛协议的逆向由 B 站网友 木兮丶念旧 完成并分享，一并致谢。
 ### 如何添加新设备
 
 若你的设备不在列表中，可以在不触碰界面的前提下完成扩展。每个品牌都是一个自包含的适配器：
