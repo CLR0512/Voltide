@@ -1,6 +1,8 @@
-<h1 align="center">
-  <img src="docs/icon.png" width="48" height="48" alt="Voltide"> Voltide
-</h1>
+<p align="center">
+  <img src="docs/icon.png" width="112" alt="Voltide">
+</p>
+
+<h1 align="center">Voltide</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/platform-Windows%2010%2F11-000000?logo=windows&logoColor=white" alt="Platform">
@@ -151,4 +153,4 @@ powershell -ExecutionPolicy Bypass -File pack.ps1 -Target dist
 
 MIT，详见 [LICENSE](LICENSE)。
 
-设计与开发：[Joko](https://github.com/sdparklab)。
+设计与开发：[Joko](https://github.com/
