@@ -1,6 +1,6 @@
+<img src="docs/icon.png" width="96" align="right" alt="Voltide">
+
 # Voltide
-
-
 
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-000000?logo=windows&logoColor=white)
 ![.NET](https://img.shields.io/badge/.NET%20Framework-4.8-512BD4)
@@ -37,7 +37,7 @@
 以下设备均已在真实硬件上验证。它们代表作者手头拥有的设备，而非架构所能覆盖的上限。
 
 | 品牌 | 设备 | 匹配 | 协议 |
-|---|---|---|---|---|
+|---|---|---|---|
 | 罗技 | G304 / GPW3 / M750M / G102 / Unifying | VID `046D` | HID++ 2.0 |
 | 迈丛 MCHOSE | K99 v2、G75 Pro | `3554:FA09` | 20 字节帧 |
 | 迈丛 MCHOSE | K7 V2 Ultra+ | `3837:1014` | 64 字节 |
@@ -58,6 +58,7 @@
 > 在真实硬件上逆向并验证各自的设备，特此致谢。
 >
 > 雷蛇与狼蛛协议的逆向由 B 站网友 木兮丶念旧 完成并分享，一并致谢。
+
 ### 如何添加新设备
 
 若你的设备不在列表中，可以在不触碰界面的前提下完成扩展。每个品牌都是一个自包含的适配器：
