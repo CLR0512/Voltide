@@ -1,11 +1,13 @@
-<img src="docs/icon.png" width="96" align="right" alt="Voltide">
+<h1 align="center">
+  <img src="docs/icon.png" width="48" height="48" alt="Voltide"> Voltide
+</h1>
 
-# Voltide
-
-![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-000000?logo=windows&logoColor=white)
-![.NET](https://img.shields.io/badge/.NET%20Framework-4.8-512BD4)
-![Size](https://img.shields.io/badge/size-8.3%20MB-74dd7c)
-![License](https://img.shields.io/badge/license-MIT-74dd7c)
+<p align="center">
+  <img src="https://img.shields.io/badge/platform-Windows%2010%2F11-000000?logo=windows&logoColor=white" alt="Platform">
+  <img src="https://img.shields.io/badge/.NET%20Framework-4.8-512BD4" alt=".NET">
+  <img src="https://img.shields.io/badge/size-8.3%20MB-74dd7c" alt="Size">
+  <img src="https://img.shields.io/badge/license-MIT-74dd7c" alt="License">
+</p>
 
 一款轻量的 Windows 托盘工具，在一块面板中显示 2.4G 无线外设（键盘与鼠标）的电量，无需安装任何厂商软件。
 
